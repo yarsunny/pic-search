@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useEffect } from "react/cjs/react.development";
 
 const StyledPhotoCard = styled.img`
   object-fit: cover;
