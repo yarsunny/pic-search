@@ -3,6 +3,7 @@ import PhotoCard from "./PhotoCard";
 import { getPhotos, selectHome } from "./homeSlice";
 import { useDispatch, useSelector } from "react-redux";
 import useInView from "react-cool-inview";
+import Search from "../../components/Search";
 
 function Home() {
   const dispatch = useDispatch();
@@ -25,23 +26,32 @@ function Home() {
     },
   });
 
+  function onChangeQuery(query) {
+    console.log(query);
+  }
+
   if (["init"].includes(homeData?.status)) {
     return <div>main Loader</div>;
   }
 
   return (
-    <div className="p-4 sm:p-0 grid gap-8 grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
-      {homeData.photos.map((photo, index) => {
-        return (
-          <div
-            key={photo.id}
-            ref={index === homeData.photos.length - 1 ? observe : null}
-          >
-            <PhotoCard photo={photo} />
-          </div>
-        );
-      })}
-    </div>
+    <>
+      <div>
+        <Search query="" onChangeQuery={onChangeQuery}/>
+      </div>
+      <div className="p-4 md:p-0 grid gap-8 grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+        {homeData.photos.map((photo, index) => {
+          return (
+            <div
+              key={photo.id}
+              ref={index === homeData.photos.length - 1 ? observe : null}
+            >
+              <PhotoCard photo={photo} />
+            </div>
+          );
+        })}
+      </div>
+    </>
   );
 }
 
