@@ -20,15 +20,17 @@ function PhotoCard({ photo }) {
     <>
       {!loaded && <PhotoCardLoader className="rounded-xl" />}
 
-      <StyledPhotoCard
-        style={loaded ? {} : { display: "none" }}
-        onLoad={() => {
-          setLoaded(true);
-        }}
-        className="rounded-xl"
-        src={photo.urls.thumb}
-        alt={photo.alt_description}
-      />
+      <a rel="noreferrer" target="_blank" href={photo.urls.regular}>
+        <StyledPhotoCard
+          style={loaded ? {} : { display: "none" }}
+          onLoad={() => {
+            setLoaded(true);
+          }}
+          className="rounded-xl hover:border-2 hover: border-white"
+          src={photo.urls.thumb}
+          alt={photo.alt_description}
+        />
+      </a>
     </>
   );
 }
