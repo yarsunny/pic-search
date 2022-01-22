@@ -1,7 +1,7 @@
-import React, { useCallback, useState } from "react";
-import { debounce } from "../utils";
-import { IoSearchOutline, IoCloseOutline } from "react-icons/io5";
 import classNames from "classnames";
+import React, { useCallback, useState } from "react";
+import { IoCloseOutline, IoSearchOutline } from "react-icons/io5";
+import { debounce } from "../utils";
 
 function Search({ query, onChangeQuery }) {
   const [internalQuery, setInternalQuery] = useState(query);

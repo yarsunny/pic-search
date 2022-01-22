@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
-import PhotoCard from "./PhotoCard";
-import {
-  getPhotos,
-  selectHome,
-  setSearch,
-  setFilters,
-  clearFilters,
-  initialState,
-} from "./homeSlice";
-import { useDispatch, useSelector } from "react-redux";
 import useInView from "react-cool-inview";
-import Search from "../../components/Search";
-import Filters from "../../components/Filters";
 import { IoFunnelSharp } from "react-icons/io5";
+import { useDispatch, useSelector } from "react-redux";
+import Filters from "../../components/Filters";
+import Search from "../../components/Search";
 import HomeLoader from "./HomeLoader";
+import {
+  clearFilters,
+  getPhotos,
+  initialState,
+  selectHome,
+  setFilters,
+  setSearch,
+} from "./homeSlice";
+import PhotoCard from "./PhotoCard";
 
 function Home() {
   const dispatch = useDispatch();
@@ -82,6 +82,11 @@ function Home() {
 
       {/* Photos */}
       {homeData.status === "loading" && homeData.page === 1 && <HomeLoader />}
+      {homeData.status === "idle" &&
+        homeData.page === 1 &&
+        homeData.photos.length === 0 && (
+          <div className="pt-8 text-center text-gray-400">No results found</div>
+        )}
       <section className="grid gap-8 grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
         {homeData.photos.map((photo, index) => {
           return (

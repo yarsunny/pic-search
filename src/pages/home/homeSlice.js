@@ -16,52 +16,54 @@ export const initialState = {
 };
 
 /** Async actions */
-export const getPhotos = createAsyncThunk("home/getPhotos", async (page, thunkAPI) => {
+export const getPhotos = createAsyncThunk(
+  "home/getPhotos",
+  async (page, thunkAPI) => {
+    let { filters, query, per_page } = thunkAPI.getState().home;
+    let response;
+    let photos = [];
 
-  let { filters, query, per_page } = thunkAPI.getState().home;
-  let response;
-  let photos = [];
+    // Remove filters if value is 'any' as they
+    // are applied by default by unsplash
+    filters = Object.keys(filters).reduce((result, key) => {
+      if (filters[key] !== "any") {
+        return {
+          ...result,
+          [key]: filters[key],
+        };
+      }
+      return result;
+    }, {});
 
-  // Remove filters if value is 'any' as they
-  // are applied by default by unsplash
-  filters = Object.keys(filters).reduce((result, key) => {
-    if (filters[key] !== "any") {
-      return {
-        ...result,
-        [key]: filters[key],
-      };
+    // When search query isn't empty use search api
+    if (query !== "") {
+      response = await searchPhotos({
+        ...filters,
+        page,
+        query,
+        per_page,
+      });
+      photos = (await response.json()).results;
     }
-    return result;
-  }, {});
+    // In case of no search string show star wars collection
+    else {
+      response = await fetchPhotos({
+        ...filters,
+        page,
+        per_page,
+      });
+      photos = await response.json();
+    }
 
-  // When search query isn't empty use search api
-  if (query !== "") {
-    response = await searchPhotos({
-      ...filters,
-      page,
-      query,
-      per_page,
-    });
-    photos = (await response.json()).results;
+    const totalPhotos = +response.headers.get("X-Total");
+    const perPage = +response.headers.get("X-Per-Page");
+
+    return {
+      photos,
+      totalPages: Math.ceil(totalPhotos / perPage),
+    };
   }
-  // In case of no search string show star wars collection
-  else {
-    response = await fetchPhotos({
-      ...filters,
-      page,
-      per_page,
-    });
-    photos = await response.json();
-  }
-
-  const totalPhotos = +response.headers.get("X-Total");
-  const perPage = +response.headers.get("X-Per-Page");
-
-  return {
-    photos,
-    totalPages: Math.ceil(totalPhotos / perPage),
-  };
-});
+);
 
 export const homeSlice = createSlice({
   name: "home",
