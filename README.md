@@ -1,6 +1,6 @@
 # Pic Search
 
-## Features
+### Features
 - PWA
 - Supports service workers to cache bundles, static files to make web app load instant.
 - Shows cached photo collection even when user goes offline.
