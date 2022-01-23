@@ -1,7 +1,6 @@
 export function fetchPhotos(params) {
   let url = new URL("https://api.unsplash.com/collections/2081954/photos");
   url.search = new URLSearchParams(params).toString();
-
   return fetch(url, getHeaders());
 }
 export function searchPhotos(params) {

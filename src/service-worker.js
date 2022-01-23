@@ -70,3 +70,18 @@ self.addEventListener('message', (event) => {
 });
 
 // Any other custom service worker logic can go here.
+// Cacheing fist page collection photos for offline scenarios
+registerRoute(
+  ({ url }) =>
+    url.hostname === 'api.unsplash.com' &&
+    url.pathname === '/collections/2081954/photos' &&
+    url.search.indexOf('page=1') !== -1,
+  new StaleWhileRevalidate({
+    cacheName: 'collection',
+    plugins: [
+      // Ensure that once this runtime cache reaches a maximum size the
+      // least-recently used images are removed.
+      new ExpirationPlugin({ maxEntries: 10 }),
+    ],
+  })
+);
