@@ -14,6 +14,7 @@ import {
   setSearch,
 } from "./homeSlice";
 import PhotoCard from "./PhotoCard";
+import { useOnlineStatus } from "../../onlineStatus";
 
 function Home() {
   const dispatch = useDispatch();
@@ -28,8 +29,7 @@ function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const { observe } = useInView({
-    // For better UX, we can grow the root margin so the data will be loaded earlier
-    rootMargin: "50px 0px",
+    rootMargin: "300px 0px",
     // When the last item comes to the viewport
     onEnter: ({ unobserve }) => {
       // Pause observe when loading data
@@ -39,14 +39,18 @@ function Home() {
       }
     },
   });
+  const online = useOnlineStatus();
+  console.log("render");
 
   return (
     <div className="p-4 md:p-0">
+
       {/* Search and Filters */}
       <section>
-        <div className="flex mt-16 mb-6">
+        <div className="flex mt-2 mb-6">
           <Search
             query=""
+            disabled={!online}
             onChangeQuery={(query) => {
               setExcludedFilters(query ? [] : ["order_by", "color"]);
               dispatch(setSearch(query));
@@ -69,6 +73,7 @@ function Home() {
             defaultValues={initialState.filters}
             hide={excludedFiltters}
             onClearFilters={() => {
+              setIsShowFilters(!isShowFilters);
               dispatch(clearFilters());
               dispatch(getPhotos(1));
             }}
@@ -94,7 +99,7 @@ function Home() {
               key={photo.id}
               ref={index === homeData.photos.length - 1 ? observe : null}
             >
-              <PhotoCard photo={photo} />
+              <PhotoCard photo={photo} disabled={!online}/>
             </div>
           );
         })}

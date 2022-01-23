@@ -3,7 +3,7 @@ import React, { useCallback, useState } from "react";
 import { IoCloseOutline, IoSearchOutline } from "react-icons/io5";
 import { debounce } from "../utils";
 
-function Search({ query, onChangeQuery }) {
+function Search({ query, disabled, onChangeQuery }) {
   const [internalQuery, setInternalQuery] = useState(query);
   const [focused, setFocused] = useState(false);
 
@@ -29,11 +29,13 @@ function Search({ query, onChangeQuery }) {
       <input
         data-testid="search-input"
         placeholder="Search free high-resolution photos"
+        disabled={disabled ? 'disabled': ''}
         className={classNames(
           "w-full py-2 outline-none placeholder-gray-600 text-sm text-gray-700",
           {
             "bg-gray-200": !focused,
             "bg-white": focused,
+            "cursor-not-allowed": disabled
           }
         )}
         value={internalQuery}
