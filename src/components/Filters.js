@@ -16,11 +16,14 @@ function Filters({ onClearFilters, onChangeFilters, defaultValues, hide }) {
   }, [watch]);
 
   return (
-    <div className="bg-gray-200 rounded-xl px-8 pt-6 pb-4 mb-12 md:flex justify-between">
-      <form className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+    <div
+      data-testid="filters"
+      className="bg-gray-200 rounded-xl px-8 pt-6 pb-4 mb-12 md:flex justify-between"
+    >
+      <form data-testid="filters-form" className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {/* Sort By */}
         {!hide.includes("order_by") && (
-          <div>
+          <div data-testid="sortby-filters">
             <h4 className="tracking-wide text-xs mb-1 text-gray-400 uppercase font-bold">
               Sort By
             </h4>
@@ -111,6 +114,7 @@ function Filters({ onClearFilters, onChangeFilters, defaultValues, hide }) {
 
       <div className="md:flex md:flex-col-reverse text-right md:text-left">
         <button
+          data-testid="clear-filters-btn"
           type="button"
           className="btn bg-gray-300 hover:bg-gray-100 text-gray-500 py-2 px-6 cursor-pointer uppercase text-xs rounded-full"
           onClick={() => {

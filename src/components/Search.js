@@ -27,6 +27,7 @@ function Search({ query, onChangeQuery }) {
     >
       <IoSearchOutline className="mr-3" />
       <input
+        data-testid="search-input"
         placeholder="Search free high-resolution photos"
         className={classNames(
           "w-full py-2 outline-none placeholder-gray-600 text-sm text-gray-700",

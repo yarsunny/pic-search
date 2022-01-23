@@ -4,6 +4,7 @@ function Radio({ id, register, name, children, value }) {
   return (
     <div className="cursor-pointer flex items-center">
       <input
+        data-testid="radio"
         className="sr-only peer"
         value={value}
         {...register(name)}
@@ -14,8 +15,9 @@ function Radio({ id, register, name, children, value }) {
         &nbsp;
       </span>
       <label
+        data-testid="radio-label"
         htmlFor={id}
-        className="cursor-pointer text-gray-400 peer-hover:text-gray-500 peer-checked:text-gray-500 py-1 text-sm rounded-lg"
+        className="cursor-pointer text-gray-400 peer-hover:text-gray-500 peer-checked:text-gray-500 py-1 text-sm"
       >
         {children}
       </label>
