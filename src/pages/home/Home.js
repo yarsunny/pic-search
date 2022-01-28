@@ -40,7 +40,6 @@ function Home() {
     },
   });
   const online = useOnlineStatus();
-  console.log("render");
 
   return (
     <div className="p-4 md:p-0">
